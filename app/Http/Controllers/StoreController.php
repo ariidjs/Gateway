@@ -17,10 +17,10 @@ class StoreController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth',['except'=>['getStore,changePassword']]);
     }
 
-    public function update(Request $request,$id){
+    public function updates(Request $request,$id){
         $name_store = $request->input('name_store');
         $name_user = $request->input('name_user');
         $phoneNumber = $request->input('phoneNumber');
@@ -99,13 +99,43 @@ class StoreController extends Controller
                 'success'=>true,
                 'message'=>'success',
                 'data'=>$store
-            ],401);
+            ],200);
         }else{
             return response()->json([
                 'success'=>false,
-                'message'=>'data tidak tersedia',
+                'message'=>'data not found',
+            ],404);
+        }
+    }
+
+    public function changePassword(Request $request,$id){
+        $oldPassword = $request->input('oldPassword');
+        $password    = $request->input('password');
+        $id          = $request->input('name_user');
+
+//        $store =  Store::where('id',8);
+        $store =  Store::where('id',"8")->first();
+
+        if(Hash::check($oldPassword, $store->password)){
+            $store->update([
+                'password'=>Hash::make($password)
+            ]);
+            return response()->json([
+                'success'=>true,
+                'message'=>'sukses'
+            ],201);
+        }else{
+            return response()->json([
+                'success'=>false,
+                'message'=>'Password yang anda masukan salah'
             ],401);
         }
+
+    return response()->json([
+        'data'=>$store,
+        'passsword'=>$password
+    ],201);
+
     }
 
     public function delete($id){

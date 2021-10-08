@@ -28,6 +28,6 @@ class Store extends Model implements AuthenticatableContract, AuthorizableContra
      * @var array
      */
     protected $hidden = [
-        'password','status_delete'
+        'status_delete'
     ];
 }

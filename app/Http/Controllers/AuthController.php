@@ -119,7 +119,6 @@ class AuthController extends Controller
                 'saldo' => 0,
                 'rating' => 0.00,
                 'status' => 0
-
             ]);
 
             if ($data) {
@@ -153,7 +152,6 @@ class AuthController extends Controller
         if($user){
             if(Hash::check($password, $user->password)){
                 $api_token = base64_encode(\Illuminate\Support\Str::random(40));
-
                 $user->update([
                     'api_token'=>$api_token,
                     'token_fcm'=>$token_fcm
@@ -185,7 +183,6 @@ class AuthController extends Controller
         $name_user = $request->input('name_user');
         $phoneNumber = $request->input('phoneNumber');
         $image_ktp = $request->file('image_ktp');
-        $saldo = "0";
         $email = $request->input('email');
         $status_store = 0;
         $image_store = $request->file('image_store');
@@ -193,8 +190,6 @@ class AuthController extends Controller
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
         $status_delete = 0;
-        $token_fcm = $request->input('token_fcm');
-        $api_token = $request->input('api_token');
         $password = Hash::make($request->input('password'));
 
         $checkEmail =  Store::where('email', '=', $email)->first();
@@ -225,7 +220,6 @@ class AuthController extends Controller
                 'name_user'=>$name_user,
                 'phoneNumber'=>$phoneNumber,
                 'image_ktp'=>$fotoKtp,
-                'saldo'=>$saldo,
                 'email'=>$email,
                 'status_store'=>$status_store,
                 'image_store'=>$fotoStore,
@@ -234,8 +228,6 @@ class AuthController extends Controller
                 'longitude'=>$longitude,
                 'status_delete'=>$status_delete,
                 'password'=>$password,
-                'token_fcm'=>$token_fcm,
-                'api_token'=>$api_token
             ]);
 
             if($register){
